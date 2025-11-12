@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getWeather } from "./api";
 import Card from "./components/cards/Card";
 import DailyForecast from "./components/cards/DailyForecast";
+import HourlyForecast from "./components/cards/HourlyForecast";
 
 function App() {
   const { data } = useQuery({
@@ -13,7 +14,9 @@ function App() {
   return (
     <div className="flex flex-col gap-8">
       <Card title="Météo actuelle">{JSON.stringify(data?.current)}</Card>
-      <Card title="Prévision dans l'heure">{JSON.stringify(data?.hourly)}</Card>
+      <Suspense fallback={<div>Chargement...</div>}>
+        <HourlyForecast />
+      </Suspense>
       <Suspense fallback={<div>Chargement...</div>}>
         <DailyForecast />
       </Suspense>
